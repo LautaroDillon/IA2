@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Enemy : MonoBehaviour
 {
@@ -11,11 +12,16 @@ public class Enemy : MonoBehaviour
     public Transform[] waypoints;
     int _actualIndex;
     public float viewRadius;
+    public float patrolingRadius;
     public bool hunting;
+    public bool Patroling;
     public PLayer huntingTarget;
     void Start()
     {
-        
+        Patroling = true;
+        hunting = false;
+
+        waypoints = GetNodoCercanos();
     }
 
     // Update is called once per frame
@@ -51,5 +57,11 @@ public class Enemy : MonoBehaviour
         _velocity += dir;
 
         _velocity = Vector3.ClampMagnitude(_velocity, maxVelocity);
+    }
+
+    public Transform[] GetNodoCercanos()
+    {
+        var nodosCercanos = GameManager.Instance.waypoints.Where(x => (x.position - transform.position).magnitude <= patrolingRadius).OrderBy(x => x.position.x).OrderBy(x => x.position.y).ToArray();
+        return nodosCercanos;
     }
 }
