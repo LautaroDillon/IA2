@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Unit
 {
-    public float Life;
+
     public float maxVelocity;
     public float maxForce;
     Vector3 _velocity;
@@ -24,16 +24,15 @@ public class Enemy : MonoBehaviour
         waypoints = GetNodoCercanos();
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
 
-    public void takeDamage(float damage)
-    {
-        Life -= damage;
-    }
+    //public void takeDamage(float damage)
+    //{
+    //    Life -= damage;
+    //}
 
     Vector3 Pursuit(Vector3 target)
     {

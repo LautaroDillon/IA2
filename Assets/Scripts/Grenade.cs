@@ -30,7 +30,7 @@ public class Grenade : MonoBehaviour
 
         foreach(IDamageable element in validTargets)
         {
-            element.TakeDamage();
+            element.TakeDamage(10);
         }
 
         Destroy(gameObject);

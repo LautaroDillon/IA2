@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PLayer : MonoBehaviour
+public class PLayer : Unit
 {
-    public float life;
+    //public float life;
     public float maxlife;
     public float Speed;
 
@@ -13,7 +13,7 @@ public class PLayer : MonoBehaviour
     
     void Start()
     {
-        life = maxlife;
+        
     }
 
     // Update is called once per frame
@@ -43,14 +43,14 @@ public class PLayer : MonoBehaviour
         transform.forward += new Vector3(horizontal, 0, vertical);
     }
 
-    public void TakeDamage(float damage)
-    {
-        life -= damage;
-        if(life <= 0)
-        {
-            OnDeath();
-        }
-    }
+    //public void TakeDamage(float damage)
+    //{
+    //    life -= damage;
+    //    if(life <= 0)
+    //    {
+    //        OnDeath();
+    //    }
+    //}
     public void OnDeath()
     {
         Destroy(gameObject);
