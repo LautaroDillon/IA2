@@ -6,6 +6,7 @@ using System.Linq;
 public class Enemy : MonoBehaviour
 {
     public float Life;
+    public float Damage;
     public float maxVelocity;
     public float maxForce;
     Vector3 _velocity;
@@ -67,6 +68,10 @@ public class Enemy : MonoBehaviour
     public void takeDamage(float damage)
     {
         Life -= damage;
+        if(Life <= 0)
+        {
+            OnDeath();
+        }
     }
 
     Vector3 Pursuit(Vector3 target)
@@ -97,5 +102,21 @@ public class Enemy : MonoBehaviour
     {
         var nodosCercanos = GameManager.Instance.waypoints.Where(x => (x.position - transform.position).magnitude <= patrolingRadius).OrderBy(x => x.position.x).OrderBy(x => x.position.y).ToArray();
         return nodosCercanos;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == 6)
+        {
+            other.GetComponent<PLayer>().TakeDamage(Damage);
+            OnDeath();
+           
+        }
+    }
+
+    public void OnDeath()
+    {
+        GameManager.Instance.enemyammount--;
+        Destroy(gameObject);   
     }
 }
