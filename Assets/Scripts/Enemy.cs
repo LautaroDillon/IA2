@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Enemy : Unit
+public class Enemy : MonoBehaviour
 {
-
+    public float Life;
     public float maxVelocity;
     public float maxForce;
     Vector3 _velocity;
@@ -24,15 +24,50 @@ public class Enemy : Unit
         waypoints = GetNodoCercanos();
     }
 
+    // Update is called once per frame
     void Update()
     {
-        
+        if((huntingTarget.transform.position - transform.position).magnitude <= viewRadius)
+        {
+            Patroling = false;
+            hunting = true;
+        }
+        if(Patroling == true)
+        {
+            Patrol();
+        }
+        if(hunting == true)
+        {
+            Follow();
+        }
     }
 
-    //public void takeDamage(float damage)
-    //{
-    //    Life -= damage;
-    //}
+    public void Follow()
+    {
+        AddForce(Pursuit(huntingTarget.transform.position));
+
+        transform.position += _velocity * Time.deltaTime;
+        transform.forward = _velocity;
+    }
+    public void Patrol()
+    {
+        AddForce(Seek(waypoints[_actualIndex].position));
+
+        if (Vector3.Distance(transform.position, waypoints[_actualIndex].position) <= 0.3f)
+        {
+            _actualIndex++;
+
+            if (_actualIndex >= waypoints.Length)
+                _actualIndex = 0;
+        }
+
+        transform.position += _velocity * Time.deltaTime;
+        transform.forward = _velocity;
+    }
+    public void takeDamage(float damage)
+    {
+        Life -= damage;
+    }
 
     Vector3 Pursuit(Vector3 target)
     {

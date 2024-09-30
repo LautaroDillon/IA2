@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
 {
     public float speed;
     public float counter;
-    public int damage;
+    public float damage;
     void Start()
     {
         
@@ -29,9 +29,9 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<IDamageable>() != null)
+        if (other.GetComponent<Enemy>())
         {
-            other.GetComponent<IDamageable>().TakeDamage(damage);
+            other.GetComponent<Enemy>().takeDamage(damage);
         }
     }
 }
